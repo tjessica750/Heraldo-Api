@@ -64,6 +64,22 @@ router.get('/usuario_detalle/:id_usuario', function (req, res) {
     }
 });
 
+//Ruta para mostrar las noticias de un usuario
+router.get('/noticia_usuario/:id_usuario', function (req, res) {
+    const { id_usuario } = req.params;
+
+    if (id_usuario) {
+        const result = noticia_controller.noticia_usuario(id_usuario);
+        result.then((obj) => {
+            res.status(200).json(obj);
+        }).catch(error => {
+            res.status(200).json(response.obj(-10, 'Algo salio mal en el servidor', error.message));
+        })
+    } else {
+        res.status(200).json(response.obj(-1, 'Parametros invalidos'));
+    }
+});
+
 //Ruta para crear una noticia
 router.post('/crear_noticia', function (req, res) {
     const { id_usuario, categoria, nombre, descripcion, visible, fecha, hora, imagen, resumen } = req.body;
@@ -115,7 +131,7 @@ router.delete('/eliminar_noticia', function (req, res) {
 
 //Ruta para mostrar todas las noticias
 router.get('/noticias', function (req, res) {
-    const result = noticia_controller.noticias();
+    const result = noticia_controller.noticias('');
     result.then((obj) => {
         res.status(200).json(obj);
     }).catch(error => {

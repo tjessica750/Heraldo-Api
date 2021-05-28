@@ -1,3 +1,4 @@
+const cors = require('cors');
 const express = require('express');
 const conexionDB = require('./db.conexion');
 const app = express();
@@ -8,6 +9,7 @@ conexionDB();
 
 // Config
 app.set('port', process.env.PORT || 8000);
+app.use(cors());
 
 // Middleware
 app.use(express.json());

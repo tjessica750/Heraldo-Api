@@ -79,10 +79,16 @@ exports.eliminar_noticia = function (id_noticia) {
     });
 }
 
-exports.noticias = function () {
+exports.noticias = function noticias(id_usuario) {
     return new Promise((resolve, reject) => {
         try {
-            Noticia.find().then((res) => {
+            console.log('id_usuario:', id_usuario);
+            if (id_usuario) {
+                id_usuario = { id_usuario };
+            } else {
+                id_usuario = {};
+            }
+            Noticia.find(id_usuario).then((res) => {
                 if (res) {
                     resolve(response.obj(0, 'Todas las noticias', res));
                 } else {
@@ -111,6 +117,24 @@ exports.noticia_detalle = function (id_noticia) {
             })
         } catch (error) {
             resolve(response.obj(-2, 'Error listando noticia', error));
+        }
+    });
+}
+
+exports.noticia_usuario = function (id_usuario) {
+    return new Promise((resolve, reject) => {
+        try {
+            Usuario.findOne({ _id: id_usuario }).then((res) => {
+                if (res) {
+                    resolve(this.noticias(id_usuario));
+                } else {
+                    resolve(response.obj(-4, 'Usuario no encontrado'));
+                }
+            }).catch(error => {
+                resolve(response.obj(-3, 'Error en la busqueda del usuario id: ' + id_usuario, error.message));
+            })
+        } catch (error) {
+            resolve(response.obj(-2, 'Error listando usuario', error));
         }
     });
 }
