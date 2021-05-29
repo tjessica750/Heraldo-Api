@@ -114,8 +114,8 @@ router.put('/editar_noticia/:id_noticia', function (req, res) {
 });
 
 //Ruta para eliminar una noticia
-router.delete('/eliminar_noticia', function (req, res) {
-    const { id_noticia } = req.body;
+router.delete('/eliminar_noticia/id_noticia', function (req, res) {
+    const { id_noticia } = req.params;
 
     if (id_noticia) {
         const result = noticia_controller.eliminar_noticia(id_noticia);

@@ -86,7 +86,7 @@ exports.noticias = function noticias(id_usuario) {
             if (id_usuario) {
                 id_usuario = { id_usuario };
             } else {
-                id_usuario = {};
+                id_usuario = { visible: 1};
             }
             Noticia.find(id_usuario).then((res) => {
                 if (res) {
